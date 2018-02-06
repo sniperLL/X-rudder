@@ -1,0 +1,125 @@
+#include "iostream"
+#include "iomanip"
+using namespace std;
+
+void main(){
+	const int num=6;
+	float unit[6][12];
+	float Z[6][6];
+	float Z1[6][6];
+	float Loading[6],f_value[6];
+	cout<<"ÊäÈë"<<num<<"X"<<num<<"¾ØÕó"<<endl;
+	for(int x=0;x<num;x++)
+	{
+		for(int y=0;y<num;y++)
+		{
+			cin>>unit[x][y];
+			Z[x][y]=unit[x][y];
+		}
+		for(int y=num;y<2*num;y++)
+		{
+			unit[x][y]=0;
+			if(x==y-num)
+			{
+				unit[x][y]=1;
+			}
+		}
+	}
+		for(int x=0;x<num;x++)
+	{
+		for(int y=0;y<2*num;y++)
+		{
+			cout.width(10);
+			cout<<unit[x][y]<<" ";
+		}
+		cout<<endl;
+	}
+	int i,j,k;
+	int maxI=0;
+	for(i=1;i<num;i++)
+	{
+		if(fabs(unit[maxI][0])<fabs(unit[i][0]))
+			maxI=i;
+	}
+	if(maxI!=0)
+	{
+		double temp;
+		for(j=0;j<2*num;j++)
+		{
+			temp=unit[0][j];
+			unit[0][j]=unit[maxI][j];
+			unit[maxI][j]=temp;
+		}
+	}
+	Loading[4]=666.6;
+	double temp2;
+	for(i=0;i<num;i++)
+	{
+		if(unit[i][i]!=0)
+			temp2=1.0/unit[i][i];
+		else
+		{
+			Loading[5]=666.6;
+			
+		}
+		for(j=0;j<2*num;j++)
+			unit[i][j]*=temp2;
+		for(j=0;j<2*num;j++)
+		{
+			if(j!=i)
+			{
+				double temp3=unit[j][i];
+				for(k=0;k<12;k++)
+					unit[j][k]-=temp3*unit[i][k];
+			}
+		}
+	}
+	for(int x=0;x<num;x++)
+	{
+		for(int y=0;y<num;y++)
+		{
+			
+			cout<<setw(8)<<unit[x][y+num];
+		}
+		cout<<endl;
+	}
+	float temp111[6][6];
+	for(int x=0;x<num;x++)
+	{
+		for(int y=0;y<num;y++)
+		{
+			temp111[x][y]=0;
+		}
+	}
+	for(int x=0;x<num;x++)
+	{
+		for(int y=0;y<num;y++)
+		{
+			for(int k=0;k<num;k++)
+			{
+				temp111[x][y]+=Z[x][k]*unit[k][y+num];
+			}
+		}
+	}
+		for(int x=0;x<num;x++)
+	{
+		for(int y=0;y<num;y++)
+		{
+			
+			cout<<setw(8)<<temp111[x][y];
+			Z1[x][y]=temp111[x][y];
+		}
+		cout<<endl;
+	}
+			for(int x=0;x<num;x++)
+	{
+		for(int y=0;y<num;y++)
+		{
+			
+			cout<<setw(8)<<Z1[x][y]*Z[y][x];
+		}
+		cout<<endl;
+	}
+	int wait;
+	cin>>wait;
+}
